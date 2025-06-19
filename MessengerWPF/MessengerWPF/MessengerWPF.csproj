@@ -8,4 +8,27 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="obj\Debug\net9.0-windows\AuthWindow.baml" />
+      <Content Include="obj\Debug\net9.0-windows\MainWindow.baml" />
+      <Content Include="obj\Debug\net9.0-windows\RegistrWindow.baml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="Views\AuthWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\RegistrWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+    </ItemGroup>
+
 </Project>
