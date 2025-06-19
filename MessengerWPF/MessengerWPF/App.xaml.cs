@@ -2,17 +2,13 @@
 using System.Data;
 using System.Windows;
 
-namespace MessengerWPF;
-
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
-public partial class App : Application
+namespace ChatApp
 {
-    protected override void OnStartup(StartupEventArgs e)
+    /// <summary>
+    /// Interaction logic for App.xaml
+    /// </summary>
+    public partial class App : Application
     {
-        base.OnStartup(e);
-        var loginWindow = new AuthWindow();
-        loginWindow.Show();
     }
+
 }
