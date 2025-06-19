@@ -76,7 +76,12 @@ public class APIRequests
             return default(T);
         }
     }
-
+/// <summary>
+/// Авторизацияпользователя 
+/// </summary>
+/// <param name="email">Email</param>
+/// <param name="password">Пароль</param>
+/// <returns></returns>
     public AuthResponse POSTAuth(string email, string password)
     {
             var requestData = new AuthRequest
@@ -89,6 +94,13 @@ public class APIRequests
             return result;
     }
     
+/// <summary>
+/// Регистрация пользователя
+/// </summary>
+/// <param name="user_name">Имя пользователя</param>
+/// <param name="email">Email</param>
+/// <param name="password">Пароль</param>
+/// <returns></returns>
     public RegistrResponse POSTRegistr(string user_name, string email, string password)
     {
         var requestData = new RegistrRequest
@@ -103,7 +115,12 @@ public class APIRequests
 
     }
     
-    
+    /// <summary>
+    /// Создание личного чата 
+    /// </summary>
+    /// <param name="user_id">Ид пользователя, с которым будет создан чат</param>
+    /// <param name="chat_name">Название чата</param>
+    /// <returns></returns>
     public CreateChatResponse POSTCreateChat(int user_id, string  chat_name)
     {
         var requestData = new CreateChatRequest
@@ -116,7 +133,12 @@ public class APIRequests
         return result;
     }
     
-    
+    /// <summary>
+    /// Создание группового чата
+    /// </summary>
+    /// <param name="chat_name">Название чата</param>
+    /// <param name="id_type_chat">Тип чата (1 1 личный, 2- групповой)</param>
+    /// <returns></returns>
     public CreateGroupChatResponse POSTCreateGroupChat(string  chat_name, int id_type_chat)
     {
         var requestData = new CreateGroupChatRequest
@@ -129,6 +151,12 @@ public class APIRequests
         return result;
     }
     
+    /// <summary>
+    /// Отправка сообщения в чат
+    /// </summary>
+    /// <param name="id_chat">ИД чата</param>
+    /// <param name="msg_text">Текст сообщения</param>
+    /// <returns></returns>
     public SendMessageResponse POSTSendMessage(int id_chat, string msg_text)
     {
         var requestData = new SendMessageRequest
@@ -141,6 +169,13 @@ public class APIRequests
         return result;
     }
     
+    /// <summary>
+    /// Отправка сообщения в чат от незарегистрированного пользователя
+    /// </summary>
+    /// <param name="user_name">Имя пользователя</param>
+    /// <param name="id_chat">ИД чата</param>
+    /// <param name="msg_text">Текст сообщения</param>
+    /// <returns></returns>
     public SendMessageUnrigisterUserResponse PostSendMessageUnrigisterUser (string user_name, int id_chat, string msg_text)
     {
         var requestData = new SendMessageUnrigisterUserRequest
@@ -153,7 +188,12 @@ public class APIRequests
         //поправить эндпоинт
         return result;
     }
-
+    /// <summary>
+    /// Добавление пользователя в чат
+    /// </summary>
+    /// <param name="id_chat">ИД чата</param>
+    /// <param name="id_user">ИД пользователя, которого нужно пригласить в чат</param>
+    /// <returns></returns>
     public bool POSTAddUserToChat(int id_chat, int id_user)
     {
         
@@ -168,6 +208,11 @@ public class APIRequests
         return response != null;
     }
     
+    /// <summary>
+    /// Получение списка чатов пользователя
+    /// </summary>
+    /// <param name="user_id">ИД пользователя</param>
+    /// <returns></returns>
     public List<ChatListResponse> GetChatList(int user_id)
     {
         var result = Get<List<ChatListResponse>>($"api/chats?user_id={user_id}", HttpStatusCode.Accepted);
@@ -175,6 +220,11 @@ public class APIRequests
         return result;
     }
     
+    /// <summary>
+    /// Получение списка сообщений в чате
+    /// </summary>
+    /// <param name="id_chat">ИД чата</param>
+    /// <returns></returns>
     public List<ChatMassagesResponse> GetChatMessages(int id_chat)
     {
         var result = Get<List<ChatMassagesResponse>>($"api/chat_messages?id={id_chat}", HttpStatusCode.Accepted);
@@ -182,6 +232,11 @@ public class APIRequests
         return result;
     }
     
+    /// <summary>
+    /// Получения списка пользователей в чате
+    /// </summary>
+    /// <param name="id_chat">ИД чата</param>
+    /// <returns></returns>
     public List<ChatUsersResponse> GETChatUsers(int id_chat)
     {
         var result = Get<List<ChatUsersResponse>>($"api/chat/chat_users?chat_id={id_chat}", HttpStatusCode.Created);
@@ -189,6 +244,11 @@ public class APIRequests
         return result;
     }
     
+    /// <summary>
+    /// Генерация ссылки для
+    /// </summary>
+    /// <param name="id_chat">ИД чата</param>
+    /// <returns></returns>
     public string GenerateInviteLink(int id_chat)
     {
         var response = Get<GenerateInviteLinkResponse>($"api/chat/invite_link?chat_id={id_chat}", HttpStatusCode.Accepted);
