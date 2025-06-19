@@ -29,54 +29,20 @@ public partial class AuthWindow : Window
         {
             TextError.Text = "Необходимо указать пароль";
         }
-
-        var authData = new
+        
+        APIRequests APIrequest = new APIRequests();
+        AuthResponse authResponse = APIrequest.POSTAuth(email, password);
+        if (authResponse != null)
         {
-            email = email,
-            password = password
-        };
-
-        try
-        {
-            string jsonData = JsonConvert.SerializeObject(authData);
-            var request = (HttpWebRequest)WebRequest.Create("https://localhost:5064/api/auth"); //Заменить потом 
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            using (var streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
-            {
-                streamWriter.Write(jsonData);
-            }
-            var response = (HttpWebResponse)request.GetResponse();
-            
-            using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
-            {
-                string responseText = reader.ReadToEnd();
-
-                var result = JsonConvert.DeserializeObject<AuthResponse>(responseText);
-
-                if (response.StatusCode == HttpStatusCode.Accepted && result != null)
-                {
-                    CurrentUser.id_user = result.id_user;
-                    CurrentUser.token = result.token;
-                    // Тут надо сделать переход к окну чата
-                    this.Close();
-                } else
-                {
-                    TextError.Text = result?.message ?? "Ошибка авторизации.";
-                }    
-            }
+            CurrentUser.id_user = authResponse.id;
+            CurrentUser.token = authResponse.token;  
         }
-        catch (WebException ex)
+        else
         {
-            using var stream = ex.Response?.GetResponseStream();
-            if (stream != null)
-            {
-                using var reader = new System.IO.StreamReader(stream);
-                string errorResponse = reader.ReadToEnd();
-                TextError.Text = $"Ошибка: {errorResponse}";
-            }
+            TextError.Text = "Произошла ошибка:" + ErrorResponse.errorMessage;   
         }
     }
+
     /// <summary>
     /// Обработчик нажатия на кнопку "Регистрация"
     /// </summary>

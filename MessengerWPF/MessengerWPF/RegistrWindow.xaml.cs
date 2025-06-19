@@ -11,95 +11,62 @@ public partial class RegistrWindow : Window
     {
         InitializeComponent();
     }
-    
+
     /// <summary>
     /// Обработчик нажатия на кнопку "Зарегистрироваться"
     /// </summary>
-  private void ButtonReistrClick(object sender, RoutedEventArgs e)
-{
-    string login = TextName.Text.Trim();
-    string password1 = TextPassword1.Password;
-    string password2 = TextPassword2.Password;
-    string email = TextEmail.Text.Trim();
-
-    if (password1 != password2)
+    private void ButtonReistrClick(object sender, RoutedEventArgs e)
     {
-        TextError.Text = "Введенные пароли не совпадают, повторите ввод";
-        return;
-    }
+        string name = TextName.Text.Trim();
+        string password1 = TextPassword1.Password;
+        string password2 = TextPassword2.Password;
+        string email = TextEmail.Text.Trim();
 
-    if (!IsValidEmail(email))
-    {
-        TextError.Text = "Email указан некорректно, повторите ввод";
-        return;
-    }
-
-    var registrData = new
-    {
-        email = email,
-        password = password1
-    };
-
-    try
-    {
-        string jsonData = JsonConvert.SerializeObject(registrData);
-        var request = (HttpWebRequest)WebRequest.Create("https://localhost:5064/api/registr"); //Заменить потом 
-        request.Method = "POST";
-        request.ContentType = "application/json";
-        using (var streamWriter = new System.IO.StreamWriter(request.GetRequestStream()))
+        if (password1 != password2)
         {
-            streamWriter.Write(jsonData);
+            TextError.Text = "Введенные пароли не совпадают, повторите ввод";
+            return;
         }
-        var response = (HttpWebResponse)request.GetResponse();
 
-        using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
+        if (!IsValidEmail(email))
         {
-            string responseText = reader.ReadToEnd();
-
-            var result = JsonConvert.DeserializeObject<AuthResponse>(responseText);
-
-            if (response.StatusCode == HttpStatusCode.OK && result != null)
+            TextError.Text = "Email указан некорректно, повторите ввод";
+            return;
+        }
+        else
+        {
+            APIRequests APIrequest = new APIRequests();
+            RegistrResponse registrResponse = APIrequest.POSTRegistr(name, email, password1);
+            if (registrResponse != null)
             {
-                CurrentUser.id_user = result.id_user;
-                CurrentUser.token = result.token;
-                // Тут надо сделать переход к окну чата
-                this.Close();
+                CurrentUser.id_user = registrResponse.id;
+                CurrentUser.token = registrResponse.token;  
             }
             else
             {
-                TextError.Text = result?.message ?? "Ошибка авторизации.";
+                TextError.Text = "Произошла ошибка:" + ErrorResponse.errorMessage;   
             }
         }
     }
-    catch (WebException ex)
-    {
-        using var stream = ex.Response?.GetResponseStream();
-        if (stream != null)
-        {
-            using var reader = new System.IO.StreamReader(stream);
-            string errorResponse = reader.ReadToEnd();
-            TextError.Text = $"Ошибка: {errorResponse}";
-        }
-    }
-} 
+
     /// <summary>
-    /// Валидайия email
-    /// </summary>
-    /// <param name="email"></param>
-    /// <returns></returns>
-private bool IsValidEmail(string email)
-{
-    if(string.IsNullOrWhiteSpace(email))
-        return false;
-    try 
-    {
-        return Regex.IsMatch(email,
-            @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
-            RegexOptions.IgnoreCase);
-    } 
-    catch 
-    { 
-        return false; 
-    }
-}
+        /// Валидайия email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        private bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+            try
+            {
+                return Regex.IsMatch(email,
+                    @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+                    RegexOptions.IgnoreCase);
+            }
+            catch
+            {
+                return false;
+            }
+        }
 }
