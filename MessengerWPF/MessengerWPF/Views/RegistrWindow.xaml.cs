@@ -40,7 +40,8 @@ public partial class RegistrWindow : Window
             if (registrResponse != null)
             {
                 CurrentUser.id_user = registrResponse.id;
-                CurrentUser.token = registrResponse.token;  
+                CurrentUser.token = registrResponse.token;
+                CurrentUser.auth = true;
             }
             else
             {

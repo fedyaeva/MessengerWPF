@@ -22,21 +22,51 @@
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        
+        <!-- Текст с инструкцией -->
+        <TextBlock FontSize="11"
+                   Padding="5"
+                   HorizontalAlignment="Left"
+                   Width="170" 
+                   Height="50"
+                   Margin="10, 300, 10, 10"
+                   Foreground="Red"
+                   TextAlignment="Center"
+                   Visibility="{Binding Nickname, Converter={StaticResource NullToVisibility}}">
+            <Run Text="Для отправки сообщений"/>
+            <LineBreak/>
+            <Run Text="необходимо указать никнейм"/>
+            <LineBreak/>
+            <Run Text="или авторизоваться"/>
+        </TextBlock>
 
+        <!-- Кнопка указания никнейма -->
+        <Button Grid.Column="0"
+                Content="Указать никнейм"
+                Background="#F6B530"
+                VerticalAlignment="Center"
+                Margin="10, 400, 10, 10"
+                Padding="5"
+                Visibility="{Binding Nickname, Converter={StaticResource NullToVisibility}}"
+                Click="Nickname_Click"/>
+        
         <!-- Кнопка авторизации -->
         <Button Grid.Column="0"
                 Content="Авторизоваться"
                 Background="#F6B530"
-                Margin="10"
+                Margin="10, 470, 10, 10"
                 Padding="5"
                 VerticalAlignment="Center"
-                Visibility="{Binding Nickname, Converter={StaticResource NullToVisibility}}"
-                Click="Authorize_Click"/>
+                Click="Auth_Click"/>
 
         <!-- Левая панель -->
         <Border Background="#FFEED3"
                 Grid.Column="0"
                 Padding="5"
+                Width="200"        
+                Height="300"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
                 Visibility="{Binding Nickname, Converter={StaticResource NotNullToVisibility}}">
             <StackPanel>
                 <TextBlock Text="Участники" FontWeight="Bold" Margin="5"/>

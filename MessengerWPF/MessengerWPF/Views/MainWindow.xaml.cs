@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MessengerWPF;
 
 namespace ChatApp
 {
@@ -18,7 +19,7 @@ namespace ChatApp
             InitializeComponent();
         }
 
-        private void Authorize_Click(object sender, RoutedEventArgs e)
+        private void Nickname_Click(object sender, RoutedEventArgs e)
         {
             var vm = (ViewModels.MainViewModel)this.DataContext;
 
@@ -27,6 +28,12 @@ namespace ChatApp
             {
                 vm.Nickname = dialog.Nickname;
             }
+        }
+
+        private void Auth_Click(object sender, RoutedEventArgs e)
+        {
+            var authWindow = new AuthWindow();
+            authWindow.Show();
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using MessengerWPF;
 
 namespace ChatApp.ViewModels
 {
@@ -9,7 +10,8 @@ namespace ChatApp.ViewModels
     {
         public ObservableCollection<string> Participants { get; set; } = new();
         public ObservableCollection<Message> Messages { get; set; } = new();
-
+        
+        
         private string _nickname;
         public string Nickname
         {

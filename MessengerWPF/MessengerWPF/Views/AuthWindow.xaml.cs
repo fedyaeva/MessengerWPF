@@ -35,7 +35,8 @@ public partial class AuthWindow : Window
         if (authResponse != null)
         {
             CurrentUser.id_user = authResponse.id;
-            CurrentUser.token = authResponse.token;  
+            CurrentUser.token = authResponse.token;
+            CurrentUser.auth = true;
         }
         else
         {
