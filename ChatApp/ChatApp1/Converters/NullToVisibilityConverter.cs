@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 
@@ -7,8 +8,15 @@ namespace ChatApp.Converters
 {
     public class NullToVisibilityConverter : IValueConverter
     {
+        // Для одного значения
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-            => value == null ? Visibility.Visible : Visibility.Collapsed;
+        {
+            if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
+                return Visibility.Visible;
+
+            return Visibility.Collapsed;
+        }
+
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
             => throw new NotImplementedException();
