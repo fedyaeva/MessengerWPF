@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows;
+using ChatApp.ViewModels;
 using Newtonsoft.Json;
 
 namespace MessengerWPF;
@@ -42,6 +43,8 @@ public partial class RegistrWindow : Window
                 CurrentUser.id_user = registrResponse.id;
                 CurrentUser.token = registrResponse.token;
                 CurrentUser.auth = true;
+                MainViewModel mainViewModel = new MainViewModel();
+                mainViewModel.Nickname = CurrentUser.user_name;
             }
             else
             {

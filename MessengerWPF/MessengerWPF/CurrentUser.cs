@@ -8,4 +8,6 @@ public static class CurrentUser
     public static int currentChatID { get; set; }
     
     public static bool auth {get; set;}
+    
+    public static string user_name {get; set;}
 }
