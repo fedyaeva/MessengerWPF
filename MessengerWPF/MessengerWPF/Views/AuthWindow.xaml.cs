@@ -36,7 +36,6 @@ public partial class AuthWindow : Window
         AuthResponse authResponse = APIrequest.POSTAuth(email, password);
         if (authResponse != null)
         {
-            CurrentUser.id_user = authResponse.id;
             CurrentUser.token = authResponse.token;
             CurrentUser.auth = true;
             MainViewModel mainViewModel = new MainViewModel();

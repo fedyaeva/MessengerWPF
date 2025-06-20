@@ -42,16 +42,14 @@ public partial class RegistrWindow : Window
             /*RegistrResponse registrResponse = new RegistrResponse();
             registrResponse.user_name = "Test name";
             CurrentUser.auth = true;*/
-            Console.WriteLine($"{registrResponse.user_name}");
+            Console.WriteLine($"{registrResponse.userName}");
             if (registrResponse != null)
             {
                 CurrentUser.id_user = registrResponse.id;
-                CurrentUser.token = registrResponse.token;
-                CurrentUser.user_name = registrResponse.user_name;
+                CurrentUser.user_name = registrResponse.userName;
                 Console.WriteLine($"{CurrentUser.user_name}");
-                CurrentUser.auth = true;
-                MainViewModel mainViewModel = new MainViewModel();
-                mainViewModel.Nickname = CurrentUser.user_name;
+                AuthWindow authWindow = new AuthWindow();
+                authWindow.Show();
                 this.Close();
             }
             else
