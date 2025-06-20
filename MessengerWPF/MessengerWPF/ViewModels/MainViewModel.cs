@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 using MessengerWPF;
 
@@ -10,9 +11,10 @@ namespace ChatApp.ViewModels
     {
         public ObservableCollection<string> Participants { get; set; } = new();
         public ObservableCollection<Message> Messages { get; set; } = new();
-        
-        
+
+
         private string _nickname;
+
         public string Nickname
         {
             get => _nickname;
@@ -26,6 +28,7 @@ namespace ChatApp.ViewModels
         }
 
         private string _messageText;
+
         public string MessageText
         {
             get => _messageText;
@@ -59,15 +62,16 @@ namespace ChatApp.ViewModels
             !string.IsNullOrWhiteSpace(Nickname) && !string.IsNullOrWhiteSpace(MessageText);
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string prop = null)
+
+        public void OnPropertyChanged([CallerMemberName] string prop = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-    }
 
 
-    public class Message
-    {
-        public string Sender { get; set; }
-        public string Content { get; set; }
-        public bool IsOwnMessage { get; set; }
+        public class Message
+        {
+            public string Sender { get; set; }
+            public string Content { get; set; }
+            public bool IsOwnMessage { get; set; }
+        }
     }
 }
