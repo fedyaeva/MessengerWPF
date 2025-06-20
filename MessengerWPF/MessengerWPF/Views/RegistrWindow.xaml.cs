@@ -39,19 +39,12 @@ public partial class RegistrWindow : Window
         {
             APIRequests APIrequest = new APIRequests();
             RegistrResponse registrResponse = APIrequest.POSTRegistr(name, email, password1);
-            /*RegistrResponse registrResponse = new RegistrResponse();
-            registrResponse.user_name = "Test name";
-            CurrentUser.auth = true;*/
-            Console.WriteLine($"{registrResponse.user_name}");
             if (registrResponse != null)
             {
                 CurrentUser.id_user = registrResponse.id;
-                CurrentUser.token = registrResponse.token;
-                CurrentUser.user_name = registrResponse.user_name;
-                Console.WriteLine($"{CurrentUser.user_name}");
-                CurrentUser.auth = true;
-                MainViewModel mainViewModel = new MainViewModel();
-                mainViewModel.Nickname = CurrentUser.user_name;
+                CurrentUser.user_name = registrResponse.userName;
+                AuthWindow authWindow = new AuthWindow();
+                authWindow.Show();
                 this.Close();
             }
             else
