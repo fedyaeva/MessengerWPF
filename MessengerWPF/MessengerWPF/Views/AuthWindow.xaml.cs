@@ -1,5 +1,7 @@
 using System.Net;
 using System.Windows;
+using ChatApp;
+using ChatApp.ViewModels;
 using Newtonsoft.Json;
 
 namespace MessengerWPF;
@@ -37,6 +39,9 @@ public partial class AuthWindow : Window
             CurrentUser.id_user = authResponse.id;
             CurrentUser.token = authResponse.token;
             CurrentUser.auth = true;
+            MainViewModel mainViewModel = new MainViewModel();
+            mainViewModel.Nickname = $"Пользователь {CurrentUser.id_user}"; //Тут изменить на имя пользователя, если добавят возврат
+            this.Close();
         }
         else
         {
