@@ -8,9 +8,13 @@
     <Window.Resources>
         <conv:NullToVisibilityConverter x:Key="NullToVisibility"/>
         <conv:NotNullToVisibilityConverter x:Key="NotNullToVisibility"/>
+        <conv:NotNullMultiToVisibilityConverter x:Key="NotNullMultiToVisibility"/>
+        <conv:NullMultiToVisibilityConverter x:Key="NullMultiToVisibility"/>
         <conv:BoolToAlignmentConverter x:Key="BoolToAlignmentConverter"/>
         <conv:BoolToTextAlignConverter x:Key="BoolToTextAlignConverter"/>
         <conv:BoolToColorConverter x:Key="BoolToColorConverter"/>
+        <conv:HideIfNicknameOrEmailAndPasswordConverter x:Key="HideIfNicknameOrEmailAndPassword"/>
+        <conv:ShowIfNicknameOrEmailAndPasswordConverter x:Key="ShowIfNicknameOrEmailAndPassword"/>
     </Window.Resources>
 
     <Window.DataContext>
@@ -25,19 +29,26 @@
         
         <!-- Текст с инструкцией -->
         <TextBlock FontSize="11"
-                   Padding="5"
-                   HorizontalAlignment="Left"
-                   Width="170" 
-                   Height="50"
-                   Margin="10, 300, 10, 10"
-                   Foreground="Red"
-                   TextAlignment="Center"
-                   Visibility="{Binding Nickname, Converter={StaticResource NullToVisibility}}">
-            <Run Text="Для отправки сообщений"/>
-            <LineBreak/>
-            <Run Text="необходимо указать никнейм"/>
-            <LineBreak/>
-            <Run Text="или авторизоваться"/>
+           Padding="5"
+           HorizontalAlignment="Left"
+           Width="170" 
+           Height="50"
+           Margin="10, 300, 10, 10"
+           Foreground="Red"
+           TextAlignment="Center">
+            <TextBlock.Visibility>
+                <MultiBinding Converter="{StaticResource HideIfNicknameOrEmailAndPassword}">
+                    <Binding Path="Nickname"/>
+                    <Binding Path="Email"/>
+                    <Binding Path="Password"/>
+                </MultiBinding>
+            </TextBlock.Visibility>
+
+    <Run Text="Для отправки сообщений"/>
+    <LineBreak/>
+    <Run Text="необходимо указать никнейм"/>
+    <LineBreak/>
+    <Run Text="или авторизоваться"/>
         </TextBlock>
 
         <!-- Кнопка указания никнейма -->
@@ -47,46 +58,91 @@
                 VerticalAlignment="Center"
                 Margin="10, 400, 10, 10"
                 Padding="5"
-                Visibility="{Binding Nickname, Converter={StaticResource NullToVisibility}}"
-                Click="Nickname_Click"/>
-        
+                Click="Nickname_Click">
+            <Button.Visibility>
+                <MultiBinding Converter="{StaticResource HideIfNicknameOrEmailAndPassword}">
+                    <Binding Path="Nickname"/>
+                    <Binding Path="Email"/>
+                    <Binding Path="Password"/>
+                </MultiBinding>
+            </Button.Visibility>
+        </Button>
+
         <!-- Кнопка авторизации -->
         <Button Grid.Column="0"
-                Content="Авторизоваться"
-                Background="#F6B530"
-                Margin="10, 470, 10, 10"
-                Padding="5"
-                VerticalAlignment="Center"
-                Click="Auth_Click"/>
+        Content="Авторизоваться"
+        Background="#F6B530"
+        Margin="10,470,10,10"
+        Padding="5"
+        VerticalAlignment="Center"
+        Click="Auth_Click">
+            <Button.Visibility>
+                <MultiBinding Converter="{StaticResource NullMultiToVisibility}">
+                    <Binding Path="Email" />
+                    <Binding Path="Password" />
+                </MultiBinding>
+            </Button.Visibility>
+        </Button>
 
         <!-- Левая панель -->
         <Border Background="#FFEED3"
-                Grid.Column="0"
-                Padding="5"
-                Width="200"        
-                Height="300"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Visibility="{Binding Nickname, Converter={StaticResource NotNullToVisibility}}">
-            <ListBox ItemsSource="{Binding Participants}"  
-                     BorderThickness="0"
-                     HorizontalContentAlignment="Stretch"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     Height="Auto"
-                     SelectedItem="{Binding SelectedParticipant}"
-                     MouseDoubleClick="ParticipantsListBox_MouseDoubleClick">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border Background="#D7A5A5" Margin="3" Padding="5" CornerRadius="4">
-                            <TextBlock Text="{Binding UserName}"
+        Grid.Column="0"
+        Padding="5"
+        Width="200"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top">
+            <StackPanel>
+
+                <!-- Панель участников -->
+                <StackPanel>
+                    <StackPanel.Visibility>
+                        <MultiBinding Converter="{StaticResource ShowIfNicknameOrEmailAndPassword}">
+                            <Binding Path="Nickname"/>
+                            <Binding Path="Email"/>
+                            <Binding Path="Password"/>
+                        </MultiBinding>
+                    </StackPanel.Visibility>
+
+                    <TextBlock Text="Участники" FontWeight="Bold" Margin="5"/>
+                    <ListBox ItemsSource="{Binding Participants}" BorderThickness="0"
+                     HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="#D7A5A5" Margin="3" Padding="5" CornerRadius="4">
+                                    <TextBlock Text="{Binding}"
                                        FontFamily="Jokerman"
                                        FontSize="16"
                                        Foreground="Black"
                                        FontWeight="Bold"/>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+
+                <!-- Разделитель -->
+                <Separator Margin="5" />
+
+                <!-- Панель чатов -->
+                <StackPanel>
+                    <StackPanel.Visibility>
+                        <MultiBinding Converter="{StaticResource NotNullMultiToVisibility}">
+                            <Binding Path="Email"/>
+                            <Binding Path="Password"/>
+                        </MultiBinding>
+                    </StackPanel.Visibility>
+
+                    <TextBlock Text="Чаты" FontWeight="Bold" Margin="10 20 5 5"/>
+                    <ListBox ItemsSource="{Binding Chats}" SelectedItem="{Binding SelectedChat}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ChatName}" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+
+            </StackPanel>
         </Border>
 
         <!-- Правая панель -->
