@@ -183,7 +183,7 @@ namespace ChatApp.ViewModels
         private void RefreshUserChats()
         {
             var chatsList =
-                APIrequest.GetChatList(CurrentUser.currentChatID); // Предполагается, что возвращается List<string>
+                APIrequest.GetChatList(CurrentUser.currentChatID); 
             if (chatsList != null)
             {
                 Chats.Clear();
