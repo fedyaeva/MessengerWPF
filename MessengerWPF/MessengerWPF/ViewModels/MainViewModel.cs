@@ -131,6 +131,7 @@ namespace ChatApp.ViewModels
             {
                 RefreshUserChats();
             }
+            OnPropertyChanged();
         }
 
         /// <summary>
@@ -138,15 +139,15 @@ namespace ChatApp.ViewModels
         /// </summary>
         private void RefreshParticipants()
         {
-            var participantsList = APIrequest.GETUsers();
-            if (participantsList != null)
-            {
-                Participants.Clear();
-                foreach (var p in participantsList)
-                    Participants.Add(new Participant { Id = p.id, UserName = p.userName });
-            }
-            /*
-            if ((CurrentUser.currentChatID = 0) != null)
+            /* var participantsList = APIrequest.GETUsers();
+             /*if (participantsList != null)
+             {
+                 Participants.Clear();
+                 foreach (var p in participantsList)
+                     Participants.Add(new Participant { Id = p.id, UserName = p.userName });
+             }*/
+
+            if ((CurrentUser.currentChatID = 1) != null)
             {
                 var participantsList = APIrequest.GETUsers();
                 if (participantsList != null)
@@ -155,15 +156,17 @@ namespace ChatApp.ViewModels
                     foreach (var p in participantsList)
                         Participants.Add(new Participant { Id = p.id, UserName = p.userName });
                 }
-            } else{
-            var participantsList = APIrequest.GETChatUsers(CurrentUser.id_user);
-            if (participantsList != null)
-            {
-                Participants.Clear();
-                foreach (var p in participantsList)
-                    Participants.Add(new Participant { Id = p.id, UserName = p.userName });
             }
-            }*/
+            else
+            {
+                var participantsList = APIrequest.GETChatUsers(CurrentUser.id_user);
+                if (participantsList != null)
+                {
+                    Participants.Clear();
+                    foreach (var p in participantsList)
+                        Participants.Add(new Participant { Id = p.id_user, UserName = p.username });
+                }
+            }
         }
 
         private Participant selectedParticipant;
