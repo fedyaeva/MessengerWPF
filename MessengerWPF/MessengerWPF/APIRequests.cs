@@ -57,8 +57,18 @@ public class APIRequests
         }
     }
 
-    private T Get<T>(string endpoint, HttpStatusCode successStatusCode)
+    private T Get<T>(string endpoint, HttpStatusCode successStatusCode, bool addAuthorizationHeader)
     {
+            
+        if (addAuthorizationHeader)
+        {
+            int userId = CurrentUser.id_user;
+            if (httpClient.DefaultRequestHeaders.Contains("X-User-Id"))
+            {
+                httpClient.DefaultRequestHeaders.Remove("X-User-Id");
+            }
+            httpClient.DefaultRequestHeaders.Add("X-User-Id", $"Bearer {userId}");
+        }
         try
         {
             var response = httpClient.GetAsync($"{host}/{endpoint}").Result;
@@ -189,9 +199,9 @@ public class APIRequests
     /// </summary>
     /// <param name="user_id">ИД пользователя</param>
     /// <returns></returns>
-    public List<ChatListResponse> GetChatList(int user_id)
+    public List<ChatListResponse> GetChatList()
     {
-        var result = Get<List<ChatListResponse>>($"api/Chat/chats?user_id={user_id}", HttpStatusCode.Accepted);
+        var result = Get<List<ChatListResponse>>($"api/Chat/chats", HttpStatusCode.Accepted, true);
         //поправить эндпоинт
         return result;
     }
@@ -204,7 +214,7 @@ public class APIRequests
     /// <returns></returns>
     public List<ChatUsersResponse> GETChatUsers(int id_chat)
     {
-        var result = Get<List<ChatUsersResponse>>($"api/Users/user_list?idChat={id_chat}", HttpStatusCode.Accepted);
+        var result = Get<List<ChatUsersResponse>>($"api/Users/user_list?idChat={id_chat}", HttpStatusCode.Accepted, true);
         return result;
     }
     
@@ -214,7 +224,7 @@ public class APIRequests
     /// <returns></returns>
     public List<UsersResponse> GETUsers()
     {
-        var result = Get<List<UsersResponse>>($"api/Users/all_user", HttpStatusCode.OK);
+        var result = Get<List<UsersResponse>>($"api/Users/all_user", HttpStatusCode.OK, false);
         return result;
     }
     
@@ -225,7 +235,7 @@ public class APIRequests
     /// <returns></returns>
     public string GenerateInviteLink(int id_chat)
     {
-        var response = Get<GenerateInviteLinkResponse>($"api/Chat/link={id_chat}", HttpStatusCode.Accepted);
+        var response = Get<GenerateInviteLinkResponse>($"api/Chat/link={id_chat}", HttpStatusCode.Accepted, false);
         return response?.invite_link;
     }
     
@@ -236,7 +246,7 @@ public class APIRequests
     /// <returns></returns>
     public List<ChatMassagesResponse> GetChatMessages(int id_chat)
     {
-        var result = Get<List<ChatMassagesResponse>>($"api/Message/{id_chat}", HttpStatusCode.Accepted);
+        var result = Get<List<ChatMassagesResponse>>($"api/Message/{id_chat}", HttpStatusCode.Accepted, false);
         return result;
     }
 
