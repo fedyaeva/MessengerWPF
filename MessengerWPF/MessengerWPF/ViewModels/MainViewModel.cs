@@ -118,7 +118,7 @@ namespace ChatApp.ViewModels
         /// <summary>
         /// Загрузка данных в чате
         /// </summary>
-        private void LoadInitialData()
+        public void LoadInitialData()
         {
             RefreshParticipants();
             RefreshMessages();

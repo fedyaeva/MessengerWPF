@@ -40,8 +40,8 @@ public partial class AuthWindow : Window
         {
             CurrentUser.token = authResponse.token;
             CurrentUser.auth = true;
-            MainViewModel mainViewModel = new MainViewModel();
-            //Сделать открытие окна чата возможно, если его закрывать
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
             this.Close();
         }
         else

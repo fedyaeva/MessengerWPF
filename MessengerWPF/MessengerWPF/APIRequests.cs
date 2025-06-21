@@ -12,12 +12,23 @@ public class APIRequests
     string host = "http://localhost:5064";
     HttpClient httpClient = new HttpClient();
 
-    private T Post<T>(string endpoint, object data, HttpStatusCode successStatusCode)
+    private T Post<T>(string endpoint, object data, HttpStatusCode successStatusCode, bool addAuthorizationHeader = false)
     {
         try
         {
             var json = JsonConvert.SerializeObject(data);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
+            
+            if (addAuthorizationHeader)
+            {
+                string token = CurrentUser.token;
+                if (httpClient.DefaultRequestHeaders.Contains("Authorization"))
+                {
+                    httpClient.DefaultRequestHeaders.Remove("Authorization");
+                }
+                httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+            }
+
             var response = httpClient.PostAsync($"{host}/{endpoint}", content).Result;
 
             if (response.StatusCode != successStatusCode)
@@ -44,7 +55,6 @@ public class APIRequests
             return default(T);
         }
     }
-
 
     private T Get<T>(string endpoint, HttpStatusCode successStatusCode)
     {
@@ -130,7 +140,7 @@ public class APIRequests
             id_type_chat = id_type_chat,
             chat_name = chat_name
         };
-        var result = Post<CreateChatResponse>("api/Chat/create", requestData, HttpStatusCode.OK);
+        var result = Post<CreateChatResponse>("api/Chat/create", requestData, HttpStatusCode.OK, true);
         return result;
     }
 
