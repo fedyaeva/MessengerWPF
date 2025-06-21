@@ -9,7 +9,7 @@ namespace MessengerWPF;
 
 public class APIRequests
 {
-    string host = "http://localhost:5064";
+    string host = "http://localhost:5065";
     HttpClient httpClient = new HttpClient();
 
     private T Post<T>(string endpoint, object data, HttpStatusCode successStatusCode, bool addAuthorizationHeader = false)
@@ -191,7 +191,7 @@ public class APIRequests
     /// <returns></returns>
     public List<ChatListResponse> GetChatList(int user_id)
     {
-        var result = Get<List<ChatListResponse>>($"/api/Chat/chats?user_id={user_id}", HttpStatusCode.Accepted);
+        var result = Get<List<ChatListResponse>>($"api/Chat/chats?user_id={user_id}", HttpStatusCode.Accepted);
         //поправить эндпоинт
         return result;
     }
@@ -236,7 +236,7 @@ public class APIRequests
     /// <returns></returns>
     public List<ChatMassagesResponse> GetChatMessages(int id_chat)
     {
-        var result = Get<List<ChatMassagesResponse>>($"/api/Message/{id_chat}", HttpStatusCode.Accepted);
+        var result = Get<List<ChatMassagesResponse>>($"api/Message/{id_chat}", HttpStatusCode.Accepted);
         return result;
     }
 

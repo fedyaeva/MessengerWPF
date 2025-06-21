@@ -21,6 +21,7 @@ namespace ChatApp
         public MainWindow()
         {
             InitializeComponent();
+            CurrentUser.currentChatID = 1;
         }
 
 

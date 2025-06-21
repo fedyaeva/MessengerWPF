@@ -6,7 +6,7 @@ public static class CurrentUser
     public static string token { get; set; }
 
 
-    public static int currentChatID { get; set; } = 1;
+    public static int currentChatID { get; set; }
     
     
     public static bool auth {get; set;}
