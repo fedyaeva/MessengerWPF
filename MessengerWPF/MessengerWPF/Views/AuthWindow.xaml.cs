@@ -46,7 +46,7 @@ public partial class AuthWindow : Window
         }
         else
         {
-            TextError.Text = "Произошла ошибка:" + ErrorResponse.errorMessage;   
+            TextError.Text = ErrorResponse.errorMessage;   
         }
     }
 

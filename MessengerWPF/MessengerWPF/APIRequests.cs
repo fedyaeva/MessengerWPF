@@ -33,7 +33,8 @@ public class APIRequests
 
             if (response.StatusCode != successStatusCode)
             {
-                throw new Exception($"Ошибка: статус {response.StatusCode}");
+                var responseBody = response.Content.ReadAsStringAsync().Result;
+                throw new Exception($"Error: {responseBody}");
             }
 
             var responseJson = response.Content.ReadAsStringAsync().Result;
@@ -41,17 +42,17 @@ public class APIRequests
         }
         catch (HttpRequestException ex)
         {
-            ErrorResponse.errorMessage = ex.Message;
+            ErrorResponse.errorMessage = $"Error: {ex.Message}";
             return default(T);
         }
         catch (TaskCanceledException ex)
         {
-            ErrorResponse.errorMessage = ex.Message;
+            ErrorResponse.errorMessage = $"Error: {ex.Message}";
             return default(T);
         }
         catch (Exception ex)
         {
-            ErrorResponse.errorMessage = ex.Message;
+            ErrorResponse.errorMessage = ex.Message; // тут уже сообщение из исключения
             return default(T);
         }
     }
@@ -64,7 +65,8 @@ public class APIRequests
 
             if (response.StatusCode != successStatusCode)
             {
-                throw new Exception($"Ошибка: статус {response.StatusCode}");
+                var responseBody = response.Content.ReadAsStringAsync().Result;
+                throw new Exception($"Error: {responseBody}");
             }
 
             var responseJson = response.Content.ReadAsStringAsync().Result;
@@ -72,17 +74,17 @@ public class APIRequests
         }
         catch (HttpRequestException ex)
         {
-            ErrorResponse.errorMessage = ex.Message;
+            ErrorResponse.errorMessage = $"Error: {ex.Message}";
             return default(T);
         }
         catch (TaskCanceledException ex)
         {
-            ErrorResponse.errorMessage = ex.Message;
+            ErrorResponse.errorMessage = $"Error: {ex.Message}";
             return default(T);
         }
         catch (Exception ex)
         {
-            ErrorResponse.errorMessage = ex.Message;
+            ErrorResponse.errorMessage = ex.Message; 
             return default(T);
         }
     }
