@@ -38,10 +38,8 @@ public partial class AuthWindow : Window
         AuthResponse authResponse = APIrequest.POSTAuth(Email, Password);
         if (authResponse != null)
         {
-            CurrentUser.token = authResponse.token;
+            CurrentUser.id_user = authResponse.userId;
             CurrentUser.auth = true;
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
             this.Close();
         }
         else

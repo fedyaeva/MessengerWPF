@@ -21,12 +21,12 @@ public class APIRequests
             
             if (addAuthorizationHeader)
             {
-                string token = CurrentUser.token;
-                if (httpClient.DefaultRequestHeaders.Contains("Authorization"))
+                int userId = CurrentUser.id_user;
+                if (httpClient.DefaultRequestHeaders.Contains("X-User-Id"))
                 {
-                    httpClient.DefaultRequestHeaders.Remove("Authorization");
+                    httpClient.DefaultRequestHeaders.Remove("X-User-Id");
                 }
-                httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+                httpClient.DefaultRequestHeaders.Add("X-User-Id", $"Bearer {userId}");
             }
 
             var response = httpClient.PostAsync($"{host}/{endpoint}", content).Result;

@@ -8,9 +8,7 @@ public static class CurrentUser
 
     public static int currentChatID { get; set; } = 1;
     
-    
-    public static bool auth {get; set;}
-    
+    public static bool auth { get; set; }
     public static string user_name {get; set;}
     
 }

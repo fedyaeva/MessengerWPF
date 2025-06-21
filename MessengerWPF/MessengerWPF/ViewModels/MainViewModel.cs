@@ -124,6 +124,7 @@ namespace ChatApp.ViewModels
         /// </summary>
         public void LoadInitialData()
         {
+            Debug.WriteLine($"CurrentUser.auth: {CurrentUser.auth}");
             RefreshParticipants();
             RefreshMessages();
             if (CurrentUser.auth)
@@ -186,9 +187,7 @@ namespace ChatApp.ViewModels
         /// </summary>
         private void RefreshMessages()
         {
-            Debug.WriteLine($"currentChatID перед вызовом API: {CurrentUser.currentChatID}");
             var messagesList = APIrequest.GetChatMessages(CurrentUser.currentChatID);
-            Debug.WriteLine($"currentChatID перед вызовом API: {CurrentUser.currentChatID}");
             if (messagesList != null)
             {
                 Messages.Clear();
@@ -209,7 +208,6 @@ namespace ChatApp.ViewModels
         /// </summary>
         private void RefreshUserChats()
         {
-            Debug.WriteLine($"currentChatID перед вызовом API: {CurrentUser.currentChatID}");
             var chatsList = APIrequest.GetChatList(CurrentUser.id_user); 
             if (chatsList != null)
             {
@@ -228,10 +226,7 @@ namespace ChatApp.ViewModels
             timer.Interval = TimeSpan.FromSeconds(30);
             timer.Tick += (s, e) =>
             {
-                if (!string.IsNullOrEmpty(Nickname))
-                {
                     LoadInitialData();
-                }
             };
             timer.Start();
         }
