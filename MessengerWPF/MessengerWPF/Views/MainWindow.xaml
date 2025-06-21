@@ -91,6 +91,13 @@
         Width="200"
         HorizontalAlignment="Left"
         VerticalAlignment="Top">
+            <Border.Visibility>
+                <MultiBinding Converter="{StaticResource ShowIfNicknameOrEmailAndPassword}">
+                    <Binding Path="Nickname"/>
+                    <Binding Path="Email"/>
+                    <Binding Path="Password"/>
+                </MultiBinding>
+            </Border.Visibility>
             <StackPanel>
 
                 <!-- Панель участников -->
