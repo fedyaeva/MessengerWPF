@@ -113,6 +113,8 @@ public class APIRequests
         return result;
 
     }
+    
+    
 
 
     /// <summary>
@@ -191,6 +193,16 @@ public class APIRequests
     public List<ChatUsersResponse> GETChatUsers(int id_chat)
     {
         var result = Get<List<ChatUsersResponse>>($"api/Users/user_list?idChat={id_chat}", HttpStatusCode.Accepted);
+        return result;
+    }
+    
+    /// <summary>
+    /// Получения списка всех пользователей
+    /// </summary>
+    /// <returns></returns>
+    public List<UsersResponse> GETUsers()
+    {
+        var result = Get<List<UsersResponse>>($"api/Users/all_user", HttpStatusCode.OK);
         return result;
     }
     

@@ -68,23 +68,23 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Visibility="{Binding Nickname, Converter={StaticResource NotNullToVisibility}}">
-            <StackPanel>
-                <TextBlock Text="Участники" FontWeight="Bold" Margin="5"/>
-                <ListBox ItemsSource="{Binding Participants}" BorderThickness="0"
-         HorizontalContentAlignment="Stretch">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border Background="#D7A5A5" Margin="3" Padding="5" CornerRadius="4">
-                                <TextBlock Text="{Binding}"
-                       FontFamily="Jokerman"
-                       FontSize="16"
-                       Foreground="Black"
-                       FontWeight="Bold"/>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
+            <ListBox ItemsSource="{Binding Participants}"  
+                     BorderThickness="0"
+                     HorizontalContentAlignment="Stretch"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     Height="Auto">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="#D7A5A5" Margin="3" Padding="5" CornerRadius="4">
+                            <TextBlock Text="{Binding}"
+                                       FontFamily="Jokerman"
+                                       FontSize="16"
+                                       Foreground="Black"
+                                       FontWeight="Bold"/>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Border>
 
         <!-- Правая панель -->
