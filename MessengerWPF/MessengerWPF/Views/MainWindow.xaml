@@ -72,11 +72,13 @@
                      BorderThickness="0"
                      HorizontalContentAlignment="Stretch"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     Height="Auto">
+                     Height="Auto"
+                     SelectedItem="{Binding SelectedParticipant}"
+                     MouseDoubleClick="ParticipantsListBox_MouseDoubleClick">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border Background="#D7A5A5" Margin="3" Padding="5" CornerRadius="4">
-                            <TextBlock Text="{Binding}"
+                            <TextBlock Text="{Binding UserName}"
                                        FontFamily="Jokerman"
                                        FontSize="16"
                                        Foreground="Black"
