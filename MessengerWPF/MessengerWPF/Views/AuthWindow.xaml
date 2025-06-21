@@ -46,7 +46,7 @@
             <!-- Текст ошибки -->
             <TextBlock x:Name="TextError"
                        Foreground="Red" 
-                       FontSize="14" 
+                       FontSize="10" 
                        Width="300" 
                        TextWrapping="Wrap"
                        MaxHeight="60" 
