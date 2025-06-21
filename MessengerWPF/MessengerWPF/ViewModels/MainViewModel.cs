@@ -131,6 +131,7 @@ namespace ChatApp.ViewModels
             {
                 RefreshUserChats();
             }
+            OnPropertyChanged();
         }
 
         /// <summary>
