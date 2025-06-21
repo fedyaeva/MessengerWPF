@@ -9,7 +9,7 @@ namespace MessengerWPF;
 
 public class APIRequests
 {
-    string host = "http://localhost:5065";
+    string host = "http://localhost:5064";
     HttpClient httpClient = new HttpClient();
 
     private T Post<T>(string endpoint, object data, HttpStatusCode successStatusCode, bool addAuthorizationHeader = false)
