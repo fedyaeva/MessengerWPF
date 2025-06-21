@@ -8,6 +8,8 @@ namespace MessengerWPF;
 
 public partial class AuthWindow : Window
 {
+    public string Email { get; set; }
+    public string Password { get; set; }
     public AuthWindow()
     {
         InitializeComponent();
@@ -19,21 +21,21 @@ public partial class AuthWindow : Window
     [Obsolete("Obsolete")]
     private void ButtonLoginClick(object sender, RoutedEventArgs e)
     {
-        string email = TextEmail.Text.Trim();
-        string password = TextPassword.Password;
+        Email = TextEmail.Text.Trim();
+        Password = TextPassword.Password;
 
-        if (string.IsNullOrEmpty(email))
+        if (string.IsNullOrEmpty(Email))
         {
             TextError.Text = "Необходимо указать Email";
         }
 
-        if (string.IsNullOrEmpty(password))
+        if (string.IsNullOrEmpty(Password))
         {
             TextError.Text = "Необходимо указать пароль";
         }
         
         APIRequests APIrequest = new APIRequests();
-        AuthResponse authResponse = APIrequest.POSTAuth(email, password);
+        AuthResponse authResponse = APIrequest.POSTAuth(Email, Password);
         if (authResponse != null)
         {
             CurrentUser.token = authResponse.token;

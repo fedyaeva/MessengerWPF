@@ -37,8 +37,13 @@ namespace ChatApp
 
         private void Auth_Click(object sender, RoutedEventArgs e)
         {
+            var vm = (ViewModels.MainViewModel)this.DataContext;
             var authWindow = new AuthWindow();
-            authWindow.Show();
+            if (authWindow.ShowDialog() == true)
+            {
+                vm.Email = authWindow.Email;
+                vm.Password = authWindow.Password;
+            }
         }
 
         private void ParticipantsListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
