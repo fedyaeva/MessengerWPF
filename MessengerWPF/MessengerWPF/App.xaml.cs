@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
+using MessengerWPF;
 
 namespace ChatApp
 {
@@ -9,6 +10,7 @@ namespace ChatApp
     /// </summary>
     public partial class App : Application
     {
+        
     }
 
 }
