@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,6 +22,7 @@ namespace ChatApp
         public MainWindow()
         {
             InitializeComponent();
+            Debug.WriteLine($"currentChatID после вызовa API: {CurrentUser.currentChatID}");
         }
 
 

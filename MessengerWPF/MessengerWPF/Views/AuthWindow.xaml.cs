@@ -38,15 +38,13 @@ public partial class AuthWindow : Window
         AuthResponse authResponse = APIrequest.POSTAuth(Email, Password);
         if (authResponse != null)
         {
-            CurrentUser.token = authResponse.token;
+            CurrentUser.id_user = authResponse.userId;
             CurrentUser.auth = true;
-            MainViewModel mainViewModel = new MainViewModel();
-            //Сделать открытие окна чата возможно, если его закрывать
             this.Close();
         }
         else
         {
-            TextError.Text = "Произошла ошибка:" + ErrorResponse.errorMessage;   
+            TextError.Text = ErrorResponse.errorMessage;   
         }
     }
 

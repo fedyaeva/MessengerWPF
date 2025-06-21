@@ -103,17 +103,22 @@
                         </MultiBinding>
                     </StackPanel.Visibility>
 
-                    <TextBlock Text="Участники" FontWeight="Bold" Margin="5"/>
+                    <TextBlock Text="Участники" FontWeight="Bold" Margin="5"
+                               Visibility="{Binding Nickname, Converter={StaticResource NotNullToVisibility}}"/>
                     <ListBox ItemsSource="{Binding Participants}" BorderThickness="0"
-                     HorizontalContentAlignment="Stretch">
+                     HorizontalContentAlignment="Stretch"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     Height="Auto"
+                     SelectedItem="{Binding SelectedParticipant}"
+                     MouseDoubleClick="ParticipantsListBox_MouseDoubleClick">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Border Background="#D7A5A5" Margin="3" Padding="5" CornerRadius="4">
-                                    <TextBlock Text="{Binding}"
-                                       FontFamily="Jokerman"
-                                       FontSize="16"
-                                       Foreground="Black"
-                                       FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding UserName}"
+                                               FontFamily="Jokerman"
+                                               FontSize="16"
+                                               Foreground="Black"
+                                               FontWeight="Bold"/>
                                 </Border>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

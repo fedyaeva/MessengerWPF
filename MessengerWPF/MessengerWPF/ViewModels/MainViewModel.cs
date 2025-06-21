@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,10 +18,7 @@ namespace ChatApp.ViewModels
         public ObservableCollection<Message> Messages { get; set; } = new();
         public ObservableCollection<string> Chats { get; set; } = new ObservableCollection<string>();
 
-
-        /// <summary>
-        /// Мое
-        /// </summary>
+        
         public MainViewModel()
         {
             SendMessageCommand = new RelayCommand(SendMessage, CanSendMessage);
@@ -82,7 +80,9 @@ namespace ChatApp.ViewModels
         public ICommand SendMessageCommand { get; }
         public ICommand CreatePersonalChatCommand { get; }
 
-
+/// <summary>
+/// Отправка сообщений
+/// </summary>
         private void SendMessage()
         {
             var messageContent = MessageText;
@@ -96,8 +96,11 @@ namespace ChatApp.ViewModels
                 IsOwnMessage = true
             });
             MessageText = "";
+            Debug.WriteLine($"currentChatID перед вызовом API: {CurrentUser.currentChatID}");
             APIrequest.POSTSendMessage(CurrentUser.currentChatID, messageContent);
+            Debug.WriteLine($"currentChatID gjckt вызовом API: {CurrentUser.currentChatID}");
             APIrequest.GetChatMessages(CurrentUser.currentChatID);
+            Debug.WriteLine($"currentChatID после вызовом API: {CurrentUser.currentChatID}");
             LoadInitialData();
         }
 
@@ -107,6 +110,7 @@ namespace ChatApp.ViewModels
         /// <param name="participant"></param>
         public void CreatePersonalChat(int userId)
         {
+            Debug.WriteLine($"currentChatID перед вызовом API: {CurrentUser.currentChatID}");
             var result = APIrequest.PostCreatePersonalChat(userId, "Личный чат");
             if (result != null && result.id != null)
             {
@@ -118,8 +122,9 @@ namespace ChatApp.ViewModels
         /// <summary>
         /// Загрузка данных в чате
         /// </summary>
-        private void LoadInitialData()
+        public void LoadInitialData()
         {
+            Debug.WriteLine($"CurrentUser.auth: {CurrentUser.auth}");
             RefreshParticipants();
             RefreshMessages();
             if (CurrentUser.auth)
@@ -182,7 +187,7 @@ namespace ChatApp.ViewModels
         /// </summary>
         private void RefreshMessages()
         {
-            var messagesList = APIrequest.GetChatMessages(CurrentUser.id_user);
+            var messagesList = APIrequest.GetChatMessages(CurrentUser.currentChatID);
             if (messagesList != null)
             {
                 Messages.Clear();
@@ -203,8 +208,7 @@ namespace ChatApp.ViewModels
         /// </summary>
         private void RefreshUserChats()
         {
-            var chatsList =
-                APIrequest.GetChatList(CurrentUser.currentChatID); // Предполагается, что возвращается List<string>
+            var chatsList = APIrequest.GetChatList(); 
             if (chatsList != null)
             {
                 Chats.Clear();
@@ -222,10 +226,7 @@ namespace ChatApp.ViewModels
             timer.Interval = TimeSpan.FromSeconds(30);
             timer.Tick += (s, e) =>
             {
-                if (!string.IsNullOrEmpty(Nickname))
-                {
                     LoadInitialData();
-                }
             };
             timer.Start();
         }
